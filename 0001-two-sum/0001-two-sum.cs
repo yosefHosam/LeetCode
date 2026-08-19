@@ -5,8 +5,9 @@ public class Solution {
         for (int i = 0; i < nums.Length; i++) {
             int complement = target - nums[i];
 
-            if (map.TryGetValue(complement, out int complementIndex)) {
-                return [complementIndex, i];
+            if (map.ContainsKey(complement)) {
+                int complementIndex = map[complement];
+                return [i, complementIndex];
             }
 
             map[nums[i]] = i;
