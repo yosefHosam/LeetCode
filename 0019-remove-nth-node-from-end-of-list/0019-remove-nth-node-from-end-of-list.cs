@@ -13,28 +13,23 @@ public class Solution
 {
     public ListNode RemoveNthFromEnd(ListNode head, int n)
     {
-        int length = 0;
-        ListNode curr = head;
-        
-        while (curr != null)
-        {
-            length++;
-            curr = curr.next;
-        }
-        
-        if (length == n)
-            return head.next;
+        ListNode dummy = new ListNode(0, head);
+        ListNode left = dummy;
+        ListNode right = head;
 
-        int stepsToMove = length - n - 1;
-        ListNode beforeTarget = head;
-
-        while (stepsToMove > 0)
+        while (n > 0)
         {
-            beforeTarget = beforeTarget.next;
-            stepsToMove--;
+            right = right.next;
+            n--;
         }
-        beforeTarget.next = beforeTarget.next.next;
-        
-        return head;
+
+        while (right != null)
+        {
+            left = left.next;
+            right = right.next;
+        }
+
+        left.next = left.next.next;
+        return dummy.next;
     }
 }
