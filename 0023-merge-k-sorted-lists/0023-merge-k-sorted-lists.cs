@@ -13,32 +13,27 @@ public class Solution
 {
     public ListNode MergeKLists(ListNode[] lists)
     {
-        ListNode dummy = new ListNode(0);
-        ListNode curr = dummy;
+        PriorityQueue<ListNode, int> minHeap = new PriorityQueue<ListNode, int>();
 
-        while (true)
+        foreach (var list in lists)
         {
-            int minIndex = -1;
-            int minVal = int.MaxValue;
-
-            for (int i = 0; i < lists.Length; i++)
-            {
-                if (lists[i] != null && lists[i].val < minVal)
-                {
-                    minVal = lists[i].val;
-                    minIndex = i;
-                }
-            }
-
-            if (minIndex == -1)
-                break;
-
-            lists[minIndex] = lists[minIndex].next;
-
-            curr.next = new ListNode(minVal);
-            curr = curr.next;
+            if (list != null)
+                minHeap.Enqueue(list, list.val);
         }
 
-        return dummy.next;
+        ListNode dummyHead = new ListNode(0);
+        ListNode curr = dummyHead;
+
+        while (minHeap.Count > 0)
+        {
+            ListNode minNode = minHeap.Dequeue();
+            curr.next = minNode;
+            curr = curr.next;
+
+            if (minNode.next != null)
+                minHeap.Enqueue(minNode.next, minNode.next.val);
+        }
+
+        return dummyHead.next;
     }
 }
